@@ -1,0 +1,321 @@
+/* =========================================================
+   Challenge Titouan Taloc - feuille de style commune
+   Mise en page : en-tête fixe en haut, sections empilées,
+   pied de page avec les contacts.
+   ========================================================= */
+
+/* ---------- 1. Variables (couleurs + polices) ---------- */
+:root {
+  --bg: #ffffff;          /* fond de page */
+  --surface: #eef3f9;     /* fond des blocs secondaires (bleu très clair) */
+  --fg: #0f1f33;          /* texte principal (bleu marine) */
+  --muted: #52627a;       /* texte secondaire */
+  --line: #dbe4ef;        /* bordures fines */
+  --accent: #1d5fa8;      /* bleu principal */
+  --accent-fg: #ffffff;   /* texte posé sur le bleu */
+  --band-bg: #0f2a4a;     /* bandeau "brassard" */
+  --band-fg: #ffffff;
+  --logo-filter: none;    /* le logo est noir : on ne le touche pas en mode clair */
+
+  --font-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --font-body: "Archivo", "Segoe UI", Arial, sans-serif;
+}
+
+/* Mode sombre (automatique selon le réglage de l'ordinateur / du téléphone) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b1522;
+    --surface: #122033;
+    --fg: #eaf1f9;
+    --muted: #9fb2c8;
+    --line: #22344b;
+    --accent: #5aa3f0;
+    --accent-fg: #0b1522;
+    --band-bg: #eaf1f9;
+    --band-fg: #0b1522;
+    --logo-filter: invert(1); /* logo noir -> blanc */
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b1522;
+  --surface: #122033;
+  --fg: #eaf1f9;
+  --muted: #9fb2c8;
+  --line: #22344b;
+  --accent: #5aa3f0;
+  --accent-fg: #0b1522;
+  --band-bg: #eaf1f9;
+  --band-fg: #0b1522;
+  --logo-filter: invert(1);
+  color-scheme: dark;
+}
+
+/* ---------- 2. Base ---------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;          /* Anton est déjà très gras */
+  text-transform: uppercase;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+h1 { font-size: clamp(2.6rem, 8vw, 5rem); }
+h2 { font-size: clamp(1.9rem, 5vw, 2.8rem); }
+h3 { font-size: 1.35rem; }
+
+p { margin: 0; max-width: 65ch; }
+
+/* Conteneur centré, avec marges sur les côtés (16px minimum) */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.section { padding-block: 4.5rem; }
+.section--alt { background: var(--surface); }
+
+.stack { display: flex; flex-direction: column; gap: 1.1rem; }
+
+/* Petit libellé au-dessus des titres */
+.eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.muted { color: var(--muted); }
+
+/* Texte "à peaufiner" bien visible pour les relectures */
+.todo {
+  background: var(--surface);
+  border: 1px dashed var(--muted);
+  padding: 0.1em 0.45em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--muted);
+  width: fit-content;
+}
+
+/* ---------- 3. En-tête + menu ---------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--bg);
+}
+
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding-block: 0.6rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+.brand img { width: 46px; height: 46px; object-fit: contain; filter: var(--logo-filter); }
+.brand span {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding-block: 0.3rem;
+  border-bottom: 2px solid transparent;
+}
+.nav a:hover { border-bottom-color: var(--line); }
+.nav a[aria-current="page"] { border-bottom-color: var(--accent); }
+
+/* ---------- 4. Boutons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
+  border: 2px solid var(--fg);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* ---------- 5. Accueil : grand bloc d'introduction ---------- */
+.hero .container {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  gap: 2.5rem;
+  padding-block: 3.5rem;
+}
+.hero-logo { filter: var(--logo-filter); width: 100%; max-width: 440px; margin-inline: auto; }
+.hero h1 span { color: var(--accent); }
+
+.edition-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  padding: 0.2rem 0.7rem;
+  transform: rotate(-2deg);
+  width: fit-content;
+}
+
+/* Bandeau façon "brassard" porté en hommage sur les terrains */
+.band {
+  background: var(--band-bg);
+  color: var(--band-fg);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1.05rem;
+}
+.band .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.6rem;
+  padding-block: 0.9rem;
+  text-align: center;
+}
+.band .dot { color: var(--accent); }
+
+.two-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* Cartes-boutons vers les autres pages */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.6rem;
+  background: var(--bg);
+  border: 2px solid var(--fg);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--accent); }
+.card p { color: var(--muted); font-size: 0.98rem; }
+.card .arrow { margin-top: auto; font-weight: 700; color: var(--accent); }
+
+/* ---------- 6. Pages intérieures ---------- */
+.page-head .container { padding-block: 3.5rem; }
+
+/* Photo 1ère édition */
+.photo { margin: 0; max-width: 900px; }
+.photo img { width: 100%; height: auto; border-radius: 14px; }
+
+/* ---------- 7. Pied de page ---------- */
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.site-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding-block: 2.5rem;
+}
+.footer-brand { display: flex; align-items: center; gap: 0.9rem; }
+.footer-brand img { width: 64px; filter: var(--logo-filter); }
+.footer-brand strong { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: 1.3rem; display: block; }
+
+.footer-icons { display: flex; gap: 0.75rem; }
+.footer-icons a { text-decoration: none; }
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-fg);
+  transition: transform 0.15s ease;
+}
+.icon svg { width: 21px; height: 21px; }
+.footer-icons a:hover .icon { transform: scale(1.1); }
+
+.footer-bottom { width: 100%; font-size: 0.85rem; color: var(--muted); }
+
+/* ---------- 8. Téléphone / petits écrans ---------- */
+@media (max-width: 800px) {
+  .hero .container,
+  .two-cols { grid-template-columns: 1fr; }
+  .hero-logo { max-width: 280px; }
+  .cards { grid-template-columns: 1fr; }
+  .section { padding-block: 3rem; }
+}
+
+/* Pas d'animations si l'utilisateur les a désactivées */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

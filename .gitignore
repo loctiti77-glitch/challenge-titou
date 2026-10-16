@@ -1,0 +1,10 @@
+# Vercel
+.vercel
+
+# Fichiers système Windows / Mac
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Archives
+*.zip

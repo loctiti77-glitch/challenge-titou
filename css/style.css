@@ -176,6 +176,9 @@ body::before {
 .nav a:hover { border-bottom-color: var(--line); }
 .nav a[aria-current="page"] { border-bottom-color: var(--accent); }
 
+/* Bouton burger : caché sur ordinateur, affiché sur téléphone (voir partie 8) */
+.menu-btn { display: none; }
+
 /* ---------- 4. Boutons ---------- */
 .btn {
   display: inline-flex;
@@ -308,11 +311,73 @@ body::before {
 
 /* ---------- 8. Téléphone / petits écrans ---------- */
 @media (max-width: 800px) {
-  .hero .container,
-  .two-cols { grid-template-columns: 1fr; }
-  .hero-logo { max-width: 280px; }
-  .cards { grid-template-columns: 1fr; }
-  .section { padding-block: 3rem; }
+  h2 { font-size: 1.9rem; }
+  .section { padding-block: 2.75rem; }
+  .page-head .container { padding-block: 2rem 2.5rem; }
+  .two-cols { grid-template-columns: 1fr; gap: 1.25rem; }
+
+  /* En-tête : logo + bouton burger sur une ligne, menu déroulant en dessous */
+  .site-header .container { padding-block: 0.5rem; }
+  .brand img { width: 40px; height: 40px; }
+  .brand span { font-size: 1rem; }
+
+  .menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: none;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .menu-btn span {
+    height: 2px;
+    background: var(--fg);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  /* Les 3 traits se transforment en croix quand le menu est ouvert */
+  .menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  #menu { display: none; width: 100%; }
+  #menu.ouvert { display: block; }
+  .nav { flex-direction: column; gap: 0; padding-bottom: 0.5rem; }
+  .nav a {
+    display: block;
+    padding-block: 0.85rem;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--line); }
+
+  /* Accueil : tout centré, logo plus petit, bouton pleine largeur */
+  .hero .container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-block: 2rem 2.5rem;
+    text-align: center;
+  }
+  .hero .stack { align-items: center; }
+  .hero-logo { max-width: 220px; }
+  .hero .btn-row { width: 100%; }
+  .hero .btn { flex: 1; justify-content: center; }
+
+  .cards { grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
+  .card { padding: 1.25rem; }
+  .card:hover { transform: none; box-shadow: none; } /* pas de survol au doigt */
+
+  .photo img { border-radius: 10px; }
+
+  /* Pied de page centré */
+  .site-footer .container { flex-direction: column; text-align: center; gap: 1.25rem; padding-block: 2rem; }
+  .footer-brand { flex-direction: column; gap: 0.5rem; }
+  .icon { width: 48px; height: 48px; } /* plus facile à toucher */
 }
 
 /* Pas d'animations si l'utilisateur les a désactivées */

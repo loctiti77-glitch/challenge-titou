@@ -17,7 +17,11 @@
         <img src="assets/logo.png" alt="">
         <span>Challenge<br>Titouan Taloc</span>
       </a>
-      <nav>
+      <!-- Bouton menu burger (visible seulement sur téléphone) -->
+      <button class="menu-btn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="menu">
         <ul class="nav">
           <li><a href="index.html">Accueil</a></li>
           <li><a href="sponsoring.html" aria-current="page">Dossier Sponsoring</a></li>
@@ -68,5 +72,6 @@
     </div>
   </footer>
 
+  <script src="js/menu.js"></script>
 </body>
 </html>

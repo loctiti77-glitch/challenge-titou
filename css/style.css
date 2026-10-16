@@ -310,12 +310,6 @@ body::before {
   font-variant-numeric: tabular-nums;
 }
 
-/* Page Déroulement : listes titre / valeur */
-.details { margin: 0; display: grid; gap: 0.3rem; }
-.details dt { font-weight: 700; margin-top: 0.9rem; }
-.details dt:first-child { margin-top: 0; }
-.details dd { margin: 0; color: var(--muted); }
-
 /* Photo 1ère édition */
 .photo { margin: 0; max-width: 900px; }
 .photo img { width: 100%; height: auto; border-radius: 14px; }

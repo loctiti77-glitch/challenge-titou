@@ -5,48 +5,42 @@
    ========================================================= */
 
 /* ---------- 1. Variables (couleurs + polices) ---------- */
+/* Plusieurs nuances de bleu, plus claires et plus colorées */
 :root {
+  color-scheme: light;
   --bg: #ffffff;          /* fond de page */
-  --surface: #eef3f9;     /* fond des blocs secondaires (bleu très clair) */
-  --fg: #0f1f33;          /* texte principal (bleu marine) */
-  --muted: #52627a;       /* texte secondaire */
-  --line: #dbe4ef;        /* bordures fines */
-  --accent: #1d5fa8;      /* bleu principal */
+  --surface: #e8f3ff;     /* fond des blocs secondaires (bleu ciel très clair) */
+  --fg: #12304f;          /* texte principal (bleu marine) */
+  --muted: #4b6283;       /* texte secondaire */
+  --line: #cfe1f5;        /* bordures fines */
+  --accent: #1769c8;      /* bleu principal */
+  --accent-2: #3aa8f0;    /* bleu ciel (décorations) */
+  --accent-3: #7cc6ff;    /* bleu clair (décorations) */
   --accent-fg: #ffffff;   /* texte posé sur le bleu */
-  --band-bg: #0f2a4a;     /* bandeau "brassard" */
+  --band-bg: linear-gradient(90deg, #1257ad, #1a73d9 55%, #1f84dc); /* bandeau "brassard" */
   --band-fg: #ffffff;
+  --hero-bg: linear-gradient(180deg, #dcedff 0%, #f2f8ff 60%, #ffffff 100%);
   --logo-filter: none;    /* le logo est noir : on ne le touche pas en mode clair */
 
   --font-display: "Anton", "Impact", "Arial Narrow", sans-serif;
   --font-body: "Archivo", "Segoe UI", Arial, sans-serif;
 }
 
-/* Mode sombre (automatique selon le réglage de l'ordinateur / du téléphone) */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0b1522;
-    --surface: #122033;
-    --fg: #eaf1f9;
-    --muted: #9fb2c8;
-    --line: #22344b;
-    --accent: #5aa3f0;
-    --accent-fg: #0b1522;
-    --band-bg: #eaf1f9;
-    --band-fg: #0b1522;
-    --logo-filter: invert(1); /* logo noir -> blanc */
-    color-scheme: dark;
-  }
-}
+/* Le site reste toujours en clair (retours : le mode sombre faisait trop foncé).
+   Le thème sombre ci-dessous ne s'active que si on ajoute data-theme="dark" sur <html>. */
 :root[data-theme="dark"] {
-  --bg: #0b1522;
-  --surface: #122033;
-  --fg: #eaf1f9;
-  --muted: #9fb2c8;
-  --line: #22344b;
-  --accent: #5aa3f0;
-  --accent-fg: #0b1522;
-  --band-bg: #eaf1f9;
-  --band-fg: #0b1522;
+  --bg: #13294a;
+  --surface: #1a365e;
+  --fg: #eef6ff;
+  --muted: #b3c9e4;
+  --line: #2c4d7a;
+  --accent: #6cbcff;
+  --accent-2: #3aa8f0;
+  --accent-3: #9fd4ff;
+  --accent-fg: #0d2240;
+  --band-bg: linear-gradient(90deg, #1561bd, #1d7ad8 55%, #2a8de0);
+  --band-fg: #ffffff;
+  --hero-bg: linear-gradient(180deg, #1d4378 0%, #17325a 60%, #13294a 100%);
   --logo-filter: invert(1);
   color-scheme: dark;
 }
@@ -92,18 +86,22 @@ p { margin: 0; max-width: 65ch; }
 }
 
 .section { padding-block: 4.5rem; }
-.section--alt { background: var(--surface); }
+.section--alt { background: linear-gradient(180deg, var(--surface), var(--bg) 140%); }
 
 .stack { display: flex; flex-direction: column; gap: 1.1rem; }
 
 /* Petit libellé au-dessus des titres */
 .eyebrow {
+  display: block;
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--accent);
 }
+
+/* Espace sous le petit libellé quand il n'est pas dans un .stack */
+.container > .eyebrow { margin-bottom: 0.6rem; }
 
 .muted { color: var(--muted); }
 
@@ -133,7 +131,7 @@ body::before {
   top: env(safe-area-inset-top, 0px);
   z-index: 5;
   background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 3px solid var(--accent-2);
 }
 .site-header .container {
   display: flex;
@@ -197,6 +195,7 @@ body::before {
 .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 /* ---------- 5. Accueil : grand bloc d'introduction ---------- */
+.hero { background: var(--hero-bg); }
 .hero .container {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -244,7 +243,7 @@ body::before {
   padding-block: 0.9rem;
   text-align: center;
 }
-.band .dot { color: var(--accent); }
+.band .dot { color: var(--accent-3); }
 
 .two-cols {
   display: grid;
@@ -271,7 +270,10 @@ body::before {
   text-decoration: none;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--accent); }
+.card { border-top: 8px solid var(--accent); }
+.card:nth-child(2) { border-top-color: var(--accent-2); }
+.card:nth-child(3) { border-top-color: var(--accent-3); }
+.card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--accent-2); }
 .card p { color: var(--muted); font-size: 0.98rem; }
 .card .arrow { margin-top: auto; font-weight: 700; color: var(--accent); }
 
@@ -291,6 +293,7 @@ body::before {
   gap: 0.4rem;
   padding: 1.1rem 1.25rem;
   background: var(--surface);
+  border-left: 5px solid var(--accent-2);
   border-radius: 12px;
 }
 .info strong { font-size: 1.15rem; }
@@ -321,6 +324,93 @@ body::before {
 /* Photo 1ère édition */
 .photo { margin: 0; max-width: 900px; }
 .photo img { width: 100%; height: auto; border-radius: 14px; }
+
+/* Chiffres clés (récap de la 1ère édition) */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.3rem 1.25rem;
+  background: var(--bg);
+  border: 2px solid var(--line);
+  border-top: 6px solid var(--accent);
+  border-radius: 12px;
+}
+.stat:nth-child(2) { border-top-color: var(--accent-2); }
+.stat:nth-child(3) { border-top-color: var(--accent-3); }
+.stat .num {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* Encadré "l'année prochaine on voit plus grand" */
+.next-year {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-block: 0.75rem;
+  padding: 1.75rem 1.75rem 1.9rem;
+  border-radius: 16px;
+  background: var(--band-bg);
+  color: var(--band-fg);
+  box-shadow: 8px 8px 0 var(--accent-3);
+}
+.next-year__tag {
+  width: fit-content;
+  background: var(--band-fg);
+  color: var(--accent);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  padding: 0.15rem 0.6rem;
+  transform: rotate(-2deg);
+}
+.next-year__title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  line-height: 1.05;
+}
+.next-year__title span { color: var(--accent-3); }
+
+.checklist { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.checklist li::marker { color: var(--accent-2); }
+
+/* Galerie photos de la 1ère édition */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.gallery figure { margin: 0; }
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+/* Case vide en attendant les photos */
+.photo-slot {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border: 2px dashed var(--accent-3);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+}
 
 /* ---------- 7. Pied de page ---------- */
 .site-footer {
@@ -418,6 +508,8 @@ body::before {
 
   .cards { grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
   .infos { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; }
+  .next-year { padding: 1.4rem 1.25rem 1.5rem; box-shadow: 5px 5px 0 var(--accent-3); }
   .card { padding: 1.25rem; }
   .card:hover { transform: none; box-shadow: none; } /* pas de survol au doigt */
 
